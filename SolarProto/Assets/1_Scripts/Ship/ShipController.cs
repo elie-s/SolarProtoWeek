@@ -9,8 +9,6 @@ namespace SolarProto
         [SerializeField] private GravityManager gravityManager = default;
         [SerializeField] private float speed = 1.0f;
         [SerializeField] private float orientationLerpForce = 0.25f;
-        [SerializeField] private CelestialBody body = default;
-        [SerializeField] private GameObject previsionPrefab = default;
         [SerializeField] private PrevisionLine prevision = default;
         [SerializeField] private float previsionDuration = 4.0f;
         [SerializeField] private int previsionFrequency = 5;
@@ -25,13 +23,14 @@ namespace SolarProto
         {
             direction = transform.forward * speed;
             FindObjectOfType<GravityManager>().AddNewtonian(this);
+            prevision = FindObjectOfType<PrevisionLine>();
         }
 
         void Update()
         {
             Rotate();
-            if (Input.GetMouseButton(0)) prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
-            if (Input.GetMouseButtonUp(0)) prevision.Reset();
+            if (Input.GetMouseButton(0) || Gesture.GettingTouch) prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
+            if (Input.GetMouseButtonUp(0) || Gesture.ReleasedMovementTouch) prevision.Reset();
         }
 
         public void Launch()
@@ -90,24 +89,6 @@ namespace SolarProto
         public Vector3 GetPosition()
         {
             return transform.position;
-        }
-
-        private IEnumerator PrevisionRoutine()
-        {
-            yield return new WaitForSeconds(0.5f);
-
-            LaunchPrevision();
-
-            yield return new WaitForSeconds(1.5f);
-
-            if (Input.GetMouseButton(0)) StartCoroutine(PrevisionRoutine());
-        }
-
-        private void LaunchPrevision()
-        {
-            Prevision prevision = Instantiate(previsionPrefab, transform.position, Quaternion.identity).GetComponent<Prevision>();
-            prevision.Init(direction, mass);
-            StartCoroutine(prevision.LifeSpanRoutine(2.0f));
         }
 
         private void OnDisable()

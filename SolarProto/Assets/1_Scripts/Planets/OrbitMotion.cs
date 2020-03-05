@@ -14,10 +14,12 @@ namespace SolarProto
         [SerializeField] private float time = 0.0f;
 
         private bool isOrbiting = false;
+        private float startTime;
 
         private void Awake()
         {
             SetTime();
+            startTime = time;
         }
 
         private void Update()
@@ -63,6 +65,12 @@ namespace SolarProto
         public void SetMotion(bool _value)
         {
            isOrbiting = _value;
+        }
+
+        public void ResetPosition()
+        {
+            time = startTime;
+            transform.position = orbitTransform.Evaluate(time);
         }
     }
 }

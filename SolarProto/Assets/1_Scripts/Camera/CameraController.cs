@@ -35,6 +35,11 @@ public class CameraController : MonoBehaviour
         MoveCamera();
     }
 
+    public void SetShip(Transform _ship)
+    {
+        shipTransform = _ship;
+    }
+
     private void PlaneProjection()
     {
         Vector2 planeProjection = Vector2.Lerp(sun2DProjection, ship2DProjection, sunShipLerpValue);
