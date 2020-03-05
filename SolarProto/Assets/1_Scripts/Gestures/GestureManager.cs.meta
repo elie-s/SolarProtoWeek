@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 1b539b669b3fd194f8a382445dcf8120
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playCam: {instanceID: 0}
+  - settings: {fileID: 11400000, guid: 9ffb1a4f2324ca240bf02612862e341f, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -24,8 +24,6 @@ namespace SolarProto
             while (Input.GetMouseButton(0))
             {
                 Debug.DrawLine(gameCamera.ScreenToWorldPoint(startPosRaw), gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, gameCamera.nearClipPlane)), Color.green);
-                Debug.Log(gameCamera.ScreenToWorldPoint(startPosRaw) + " -> " + gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, gameCamera.nearClipPlane)));
-                Debug.Log(startPosRaw + " -> " + Input.mousePosition);
                 direction = -(AdjustedViewportRatioPosition(Input.mousePosition) - startPos);
                 direction = direction.normalized * Mathf.Clamp01(direction.magnitude / magnitudeMax);
 

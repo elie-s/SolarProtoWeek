@@ -6,13 +6,11 @@ namespace SolarProto
 {
     public class GravityManager : MonoBehaviour
     {
-        [SerializeField] private ShipController ship = default;
+        [SerializeField] private List<INewtonian> newtonians = new List<INewtonian>();
         [SerializeField] private float gravitationnalForceModifier = 1.0f;
         [SerializeField] private float gravitationalForce = (float)(6.67430d * System.Math.Pow(10, -11));
 
         private CelestialBody[] celestialBodies;
-        private IEnumerator sendingForcesRoutine;
-        private bool stop = false;
 
         // Start is called before the first frame update
         void Start()
@@ -20,20 +18,19 @@ namespace SolarProto
             InitBodies();
         }
 
-        [ContextMenu("Start")]
-        public void StartSendForces()
+        private void FixedUpdate()
         {
-            StopSendForces();
-
-            sendingForcesRoutine = SendForcesRoutine();
-            StartCoroutine(sendingForcesRoutine);
+            SetForcesToShips();
         }
 
-        [ContextMenu("Stop")]
-        public void StopSendForces()
+        public void AddNewtonian(INewtonian _newtonian)
         {
-            stop = true;
-            if(sendingForcesRoutine != null)StopCoroutine(sendingForcesRoutine);
+            newtonians.Add(_newtonian);
+        }
+
+        public void RemoveNewtonian(INewtonian _newtonian)
+        {
+            newtonians.Remove(_newtonian);
         }
 
         private void InitBodies()
@@ -41,30 +38,26 @@ namespace SolarProto
             celestialBodies = FindObjectsOfType<CelestialBody>();
         }
 
-        private void SetForcesToShip()
+        private void SetForcesToShips()
+        {
+            foreach (INewtonian ship in newtonians)
+            {
+                SetForcesToShip(ship);
+            }
+        }
+
+        public void SetForcesToShip(INewtonian _ship)
         {
             Vector3 force = default;
 
             foreach (CelestialBody body in celestialBodies)
             {
-                force += body.GravitationalForce(ship.transform.position, ship.mass, gravitationalForce * gravitationnalForceModifier);
+                if(body) force += body.GravitationalForce(_ship.GetPosition(), _ship.GetMass(), gravitationalForce * gravitationnalForceModifier);
             }
 
             Debug.Log(celestialBodies.Length);
 
-            ship.GetForces(force);
-        }
-
-        private IEnumerator SendForcesRoutine()
-        {
-            stop = false;
-
-            while (!stop)
-            {
-                SetForcesToShip();
-
-                yield return new WaitForFixedUpdate();
-            }
+            _ship.ApplyForce(force);
         }
     }
 }
