@@ -13,6 +13,9 @@ namespace SolarProto
         [SerializeField] private float previsionDuration = 4.0f;
         [SerializeField] private int previsionFrequency = 5;
 
+        private System.Action crash;
+        private System.Action win;
+
         public float mass = 1.0f;
 
         private Vector3 direction;
@@ -29,7 +32,11 @@ namespace SolarProto
         void Update()
         {
             Rotate();
-            if (Input.GetMouseButton(0) || Gesture.GettingTouch) prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
+            if (Input.GetMouseButton(0) || Gesture.GettingTouch)
+            {
+                Stop();
+                prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
+            }
             if (Input.GetMouseButtonUp(0) || Gesture.ReleasedMovementTouch) prevision.Reset();
         }
 
@@ -94,6 +101,32 @@ namespace SolarProto
         private void OnDisable()
         {
             FindObjectOfType<GravityManager>()?.RemoveNewtonian(this);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Collision detected.");
+
+            if(other.tag == "Crash")
+            {
+                crash();
+            }
+            else if(other.tag == "Portal")
+            {
+                win();
+                getForces = false;
+                SetDirection(other.transform.forward);
+            }
+        }
+
+        public void SetCrash(System.Action _action)
+        {
+            crash = _action;
+        }
+
+        public void SetWin(System.Action _action)
+        {
+            win = _action;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SolarProto
         // Start is called before the first frame update
         void Start()
         {
-
+            ResetShip();
         }
 
         // Update is called once per frame
@@ -29,6 +29,7 @@ namespace SolarProto
                 orbits.StopMotions();
                 orbits.ResetMotions();
             }
+            else if (Input.GetMouseButton(0) || Gesture.GettingTouch) orbits.StopMotions();
         }
 
         private void ResetShip()
@@ -36,15 +37,29 @@ namespace SolarProto
             DestroyShip();
 
             ship = Instantiate(shipPrefab, spawnPoint.position, spawnPoint.rotation);
-            gravityManager.AddNewtonian(ship.GetComponent<ShipController>());
-            inputManager.SetShip(ship.GetComponent<ShipController>());
+            ShipController shipController = ship.GetComponent<ShipController>();
+            gravityManager.AddNewtonian(shipController);
+            inputManager.SetShip(shipController);
             camController.SetShip(ship.transform);
+            shipController.SetWin(Win);
+            shipController.SetCrash(Crash);
         }
 
         public void DestroyShip()
         {
             gravityManager.RemoveNewtonian(ship.GetComponent<ShipController>());
             Destroy(ship);
+        }
+
+        public void Crash()
+        {
+            DestroyShip();
+            Debug.Log("Boum ! <3");
+        }
+
+        public void Win()
+        {
+            Debug.Log("Win !");
         }
     }
 }

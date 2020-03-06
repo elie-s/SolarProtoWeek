@@ -55,8 +55,6 @@ namespace SolarProto
                 if(body) force += body.GravitationalForce(_ship.GetPosition(), _ship.GetMass(), gravitationalForce * gravitationnalForceModifier);
             }
 
-            Debug.Log(celestialBodies.Length);
-
             _ship.ApplyForce(force);
         }
     }
