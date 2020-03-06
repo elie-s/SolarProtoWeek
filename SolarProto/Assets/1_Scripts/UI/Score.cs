@@ -14,6 +14,11 @@ namespace SolarProto
         [SerializeField] TextMeshProUGUI scoreText;
         [SerializeField] private float animDuration;
 
+        private void Start()
+        {
+            SetScore();
+        }
+
         public void SetScore()
         {
             totalScore = playerData.GetScore();

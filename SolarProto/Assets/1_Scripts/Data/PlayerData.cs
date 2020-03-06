@@ -50,7 +50,7 @@ namespace SolarProto
 
             foreach (LevelData data in levelData)
             {
-                result += data.levelId / data.playsAmount;
+                result += (data.levelId +1 ) / data.playsAmount;
             }
 
             return result;

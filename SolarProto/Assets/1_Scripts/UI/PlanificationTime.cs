@@ -23,10 +23,15 @@ namespace SolarProto
         [ContextMenu("Test")]
         private void TestPTI()
         {
-            SetTimeCount(45, 60);
+            SetTimeCount();
         }
 
-        public void SetTimeCount(float initValue, float subValue)
+        private void Start()
+        {
+            SetTimeCount();
+        }
+
+        public void SetTimeCount()
         {
             pti = playerData.GetTotalIPT();
             ptu = playerData.GetTotalSPT(); ;

@@ -26,6 +26,11 @@ namespace SolarProto
             lastPos = transform.position;
             SetTime();
             startTime = time;
+            
+        }
+
+        private void Start()
+        {
             SetPrevision();
             PrevisionSetActive(true);
         }
