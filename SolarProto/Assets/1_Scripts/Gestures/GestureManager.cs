@@ -18,6 +18,7 @@ namespace SolarProto
         void Start()
         {
             if (!playCam) playCam = Camera.main;
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
 
         void Update()

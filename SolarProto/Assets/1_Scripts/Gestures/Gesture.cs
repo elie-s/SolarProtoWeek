@@ -17,5 +17,7 @@ namespace SolarProto
         public static bool Pinching;
         public static float RotationValue;
         public static bool Rotating;
+        public static bool TouchDown => Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+        public static bool GettingTouch => Input.touchCount > 0;
     }
 }

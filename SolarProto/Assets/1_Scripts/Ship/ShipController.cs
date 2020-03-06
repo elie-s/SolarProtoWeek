@@ -9,11 +9,12 @@ namespace SolarProto
         [SerializeField] private GravityManager gravityManager = default;
         [SerializeField] private float speed = 1.0f;
         [SerializeField] private float orientationLerpForce = 0.25f;
-        [SerializeField] private CelestialBody body = default;
-        [SerializeField] private GameObject previsionPrefab = default;
         [SerializeField] private PrevisionLine prevision = default;
         [SerializeField] private float previsionDuration = 4.0f;
         [SerializeField] private int previsionFrequency = 5;
+
+        private System.Action crash;
+        private System.Action win;
 
         public float mass = 1.0f;
 
@@ -25,13 +26,18 @@ namespace SolarProto
         {
             direction = transform.forward * speed;
             FindObjectOfType<GravityManager>().AddNewtonian(this);
+            prevision = FindObjectOfType<PrevisionLine>();
         }
 
         void Update()
         {
             Rotate();
-            if (Input.GetMouseButton(0)) prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
-            if (Input.GetMouseButtonUp(0)) prevision.Reset();
+            if (Input.GetMouseButton(0) || Gesture.GettingTouch)
+            {
+                Stop();
+                prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
+            }
+            if (Input.GetMouseButtonUp(0) || Gesture.ReleasedMovementTouch) prevision.Reset();
         }
 
         public void Launch()
@@ -92,27 +98,35 @@ namespace SolarProto
             return transform.position;
         }
 
-        private IEnumerator PrevisionRoutine()
-        {
-            yield return new WaitForSeconds(0.5f);
-
-            LaunchPrevision();
-
-            yield return new WaitForSeconds(1.5f);
-
-            if (Input.GetMouseButton(0)) StartCoroutine(PrevisionRoutine());
-        }
-
-        private void LaunchPrevision()
-        {
-            Prevision prevision = Instantiate(previsionPrefab, transform.position, Quaternion.identity).GetComponent<Prevision>();
-            prevision.Init(direction, mass);
-            StartCoroutine(prevision.LifeSpanRoutine(2.0f));
-        }
-
         private void OnDisable()
         {
             FindObjectOfType<GravityManager>()?.RemoveNewtonian(this);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Collision detected.");
+
+            if(other.tag == "Crash")
+            {
+                crash();
+            }
+            else if(other.tag == "Portal")
+            {
+                win();
+                getForces = false;
+                SetDirection(other.transform.forward);
+            }
+        }
+
+        public void SetCrash(System.Action _action)
+        {
+            crash = _action;
+        }
+
+        public void SetWin(System.Action _action)
+        {
+            win = _action;
         }
     }
 }

@@ -18,9 +18,9 @@ public class CameraController : MonoBehaviour
 
     private Vector2 positionController2DProjection => new Vector2(positionController.position.x, positionController.position.z);
     private Vector2 sun2DProjection => new Vector2(sunTransform.position.x, sunTransform.position.z);
-    private Vector2 ship2DProjection => new Vector2(shipTransform.position.x, shipTransform.position.z);
+    private Vector2 ship2DProjection => shipTransform ? new Vector2(shipTransform.position.x, shipTransform.position.z) : Vector2.zero;
 
-    private float lerpZoom => (Mathf.Clamp(Vector3.Distance(sunTransform.position, shipTransform.position), minDistance, maxdistance) - minDistance) / (maxdistance - minDistance);
+    private float lerpZoom => (Mathf.Clamp(Vector3.Distance(sunTransform.position, shipTransform ? shipTransform.position : Vector3.zero), minDistance, maxdistance) - minDistance) / (maxdistance - minDistance);
 
     void Start()
     {
@@ -35,10 +35,15 @@ public class CameraController : MonoBehaviour
         MoveCamera();
     }
 
+    public void SetShip(Transform _ship)
+    {
+        shipTransform = _ship;
+    }
+
     private void PlaneProjection()
     {
         Vector2 planeProjection = Vector2.Lerp(sun2DProjection, ship2DProjection, sunShipLerpValue);
-        if (Vector3.Distance(sunTransform.position, shipTransform.position) > maxdistance) positionController.position = new Vector3(sun2DProjection.x, positionController.position.y, sun2DProjection.y);
+        if (Vector3.Distance(sunTransform.position, shipTransform ? shipTransform.position : Vector3.zero) > maxdistance) positionController.position = new Vector3(sun2DProjection.x, positionController.position.y, sun2DProjection.y);
         else positionController.position = new Vector3(planeProjection.x, positionController.position.y, planeProjection.y);
     }
 

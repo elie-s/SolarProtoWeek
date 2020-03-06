@@ -18,8 +18,8 @@ namespace SolarProto
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetMouseButtonDown(0)) StopMotions();
-            else if (Input.GetMouseButtonUp(0)) StartMotions();
+            if (Input.GetMouseButtonDown(0) || Gesture.TouchDown) StopMotions();
+            else if (Input.GetMouseButtonUp(0) || Gesture.ReleasedMovementTouch) StartMotions();
         }
 
         private void GetList()
@@ -42,6 +42,15 @@ namespace SolarProto
             {
                 orbit.SetMotion(false);
             }
+        }
+
+        public void ResetMotions()
+        {
+            foreach (OrbitMotion orbit in orbitMotions)
+            {
+                orbit.ResetPosition();
+            }
+
         }
     }
 }

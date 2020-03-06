@@ -13,6 +13,12 @@ namespace SolarProto
         void Update()
         {
             if (Input.GetMouseButtonDown(0)) StartCoroutine(GetVectorInput());
+            else if (Gesture.TouchDown) StartCoroutine(GetVectorInputGesture());
+        }
+
+        public void SetShip(ShipController _ship)
+        {
+            ship = _ship;
         }
 
         private IEnumerator GetVectorInput()
@@ -34,6 +40,19 @@ namespace SolarProto
 
             Debug.Log(direction.magnitude);
             ship.SetDirection(direction);
+
+            ship.Launch();
+        }
+
+        private IEnumerator GetVectorInputGesture()
+        {
+            while(Gesture.GettingTouch)
+            {
+                ship.SetDirection(Gesture.Movement);
+
+                yield return null;
+            }
+            ship.SetDirection(Gesture.Movement);
 
             ship.Launch();
         }
