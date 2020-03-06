@@ -22,11 +22,14 @@ namespace SolarProto
         private bool stop = false;
         private bool getForces = false;
 
+        private bool finished = false;
+
         private void OnEnable()
         {
             direction = transform.forward * speed;
             FindObjectOfType<GravityManager>().AddNewtonian(this);
             prevision = FindObjectOfType<PrevisionLine>();
+            finished = false;
         }
 
         void Update()
@@ -103,19 +106,22 @@ namespace SolarProto
             FindObjectOfType<GravityManager>()?.RemoveNewtonian(this);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log("Collision detected.");
+            Debug.Log("collisison");
+            if (finished) return;
 
-            if(other.tag == "Crash")
+            if(collision.gameObject.tag == "Crash")
             {
                 crash();
+                finished = true;
             }
-            else if(other.tag == "Portal")
+            else if(collision.gameObject.tag == "Portal")
             {
                 win();
                 getForces = false;
-                SetDirection(other.transform.forward);
+                SetDirection(collision.transform.forward);
+                finished = true;
             }
         }
 
