@@ -27,6 +27,7 @@ namespace SolarProto
         private void OnEnable()
         {
             direction = transform.forward * speed;
+            gravityManager = FindObjectOfType<GravityManager>();
             FindObjectOfType<GravityManager>().AddNewtonian(this);
             prevision = FindObjectOfType<PrevisionLine>();
             finished = false;
@@ -38,7 +39,7 @@ namespace SolarProto
             if (Input.GetMouseButton(0) || Gesture.GettingTouch)
             {
                 Stop();
-                prevision.Simulation(previsionDuration, transform.position, mass, direction, previsionFrequency);
+                prevision.Simulation(previsionDuration, GetPosition(), GetMass(), direction, previsionFrequency);
             }
             if (Input.GetMouseButtonUp(0) || Gesture.ReleasedMovementTouch) prevision.Reset();
         }
@@ -67,6 +68,7 @@ namespace SolarProto
             while (!stop)
             {
                 Move();
+                gravityManager.SetForcesToShip(this);
 
                 yield return new WaitForFixedUpdate();
             }

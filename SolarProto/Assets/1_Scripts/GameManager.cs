@@ -16,7 +16,7 @@ namespace SolarProto
         [SerializeField] private InputManager inputManager = default;
         [SerializeField] private DataManager dataManager = default;
         [SerializeField] private int levelID = 0;
-        //[SerializeField] private bool isLastLevel = false;
+        [SerializeField] private bool isLastLevel = false;
         [SerializeField] private bool isTest = false;
 
         // Start is called before the first frame update
@@ -75,8 +75,8 @@ namespace SolarProto
 
             if(!isTest)
             {
-                if (levelID + 2 == SceneManager.sceneCountInBuildSettings) StartCoroutine(LoadNextScene());
-                else StartCoroutine(LoadResultScene());
+                if (isLastLevel) StartCoroutine(LoadResultScene());
+                else StartCoroutine(LoadNextScene());
             }
             
         }

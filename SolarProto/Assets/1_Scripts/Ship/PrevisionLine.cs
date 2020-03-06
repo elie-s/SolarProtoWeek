@@ -21,9 +21,10 @@ namespace SolarProto
 
             for (int i = 0; i < iterations; i++)
             {
-                if(frequency == 0) positions.Add(simulation.GetPosition());
                 gravityManager.SetForcesToShip(simulation);
                 simulation.Move();
+                if (frequency == 0) positions.Add(simulation.GetPosition());
+                
 
                 frequency++;
                 if (frequency == _frequency) frequency = 0;

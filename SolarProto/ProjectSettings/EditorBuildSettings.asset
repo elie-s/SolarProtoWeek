@@ -12,6 +12,18 @@ EditorBuildSettings:
     path: Assets/0_Scenes/Build/ResultScene.unity
     guid: e41ae7a2adb5eb6449739d7bd031ff4c
   - enabled: 1
-    path: Assets/0_Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/0_Scenes/Build/LD1.unity
+    guid: 0b51828ab128f7d4c866561536dd76ec
+  - enabled: 1
+    path: Assets/0_Scenes/Build/LD2.unity
+    guid: ca17290ed1cb0104aabc6e86aa8b10e8
+  - enabled: 1
+    path: Assets/0_Scenes/Build/LD3.unity
+    guid: b804138553e77cd4ea99dc305167dc61
+  - enabled: 1
+    path: Assets/0_Scenes/Build/LD4.unity
+    guid: 039a0ff73ba7c534396fc09e97572051
+  - enabled: 1
+    path: Assets/0_Scenes/Build/LD5.unity
+    guid: c53082fd5d0c471498f04eac6137a2de
   m_configObjects: {}

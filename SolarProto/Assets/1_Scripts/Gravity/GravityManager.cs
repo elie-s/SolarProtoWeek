@@ -20,7 +20,7 @@ namespace SolarProto
 
         private void FixedUpdate()
         {
-            SetForcesToShips();
+            //SetForcesToShips();
         }
 
         public void AddNewtonian(INewtonian _newtonian)
@@ -48,11 +48,11 @@ namespace SolarProto
 
         public void SetForcesToShip(INewtonian _ship)
         {
-            Vector3 force = default;
+            Vector3 force = Vector3.zero;
 
             foreach (CelestialBody body in celestialBodies)
             {
-                if(body) force += body.GravitationalForce(_ship.GetPosition(), _ship.GetMass(), gravitationalForce * gravitationnalForceModifier);
+                force += body.GravitationalForce(_ship.GetPosition(), _ship.GetMass(), gravitationalForce * gravitationnalForceModifier);
             }
 
             _ship.ApplyForce(force);

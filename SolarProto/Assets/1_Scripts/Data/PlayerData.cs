@@ -50,7 +50,7 @@ namespace SolarProto
 
             foreach (LevelData data in levelData)
             {
-                result += Mathf.CeilToInt((float)(data.levelId +1 ) / (float)data.playsAmount);
+                result += Mathf.CeilToInt((float)(data.levelId + 1) / (float)data.playsAmount) * 10 + 10;
             }
 
             return result;
