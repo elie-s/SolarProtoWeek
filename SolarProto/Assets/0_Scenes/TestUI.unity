@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fe93041093aa6468ecd4d79d725a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 6fad118e4c5451e4fb80fc2c0ec36a44, type: 2}
   totalScore: 50
   scoreText: {fileID: 100818879}
   animDuration: 1.5
@@ -651,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dff786b5280ab14182e707c841c8374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 6fad118e4c5451e4fb80fc2c0ec36a44, type: 2}
   pti: 45
   ptu: 60
   timeCount: 105

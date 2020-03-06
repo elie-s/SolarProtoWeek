@@ -43,5 +43,17 @@ namespace SolarProto
 
             return result;
         }
+
+        public int GetScore()
+        {
+            int result = 0;
+
+            foreach (LevelData data in levelData)
+            {
+                result += data.levelId / data.playsAmount;
+            }
+
+            return result;
+        }
     }
 }

@@ -8,14 +8,16 @@ namespace SolarProto
 {
     public class Score : MonoBehaviour
     {
+        [SerializeField] private PlayerData playerData;
         [SerializeField] private int totalScore;
 
         [SerializeField] TextMeshProUGUI scoreText;
         [SerializeField] private float animDuration;
 
-        public void AddLevelInfos(int levelNumber, int numverOfMoves)
+        public void SetScore()
         {
-            totalScore += levelNumber / numverOfMoves;
+            totalScore = playerData.GetScore();
+            StartCoroutine(IncreaseScoreText(totalScore));
         }
 
         [ContextMenu("Test")]

@@ -8,6 +8,8 @@ namespace SolarProto
 {
     public class PlanificationTime : MonoBehaviour
     {
+        [SerializeField] private PlayerData playerData;
+
         [SerializeField] private float pti;
         [SerializeField] private float ptu;
         [SerializeField] private float timeCount;
@@ -26,8 +28,8 @@ namespace SolarProto
 
         public void SetTimeCount(float initValue, float subValue)
         {
-            pti = initValue;
-            ptu = subValue;
+            pti = playerData.GetTotalIPT();
+            ptu = playerData.GetTotalSPT(); ;
             timeCount = pti + ptu;
             StartCoroutine(MoveScrollBar(timeCount, pti, ptu));
         }
