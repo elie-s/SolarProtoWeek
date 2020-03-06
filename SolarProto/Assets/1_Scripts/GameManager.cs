@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SolarProto
 {
@@ -13,6 +14,10 @@ namespace SolarProto
         [SerializeField] private CameraController camController = default;
         [SerializeField] private OrbitsManager orbits = default;
         [SerializeField] private InputManager inputManager = default;
+        [SerializeField] private DataManager dataManager = default;
+        [SerializeField] private int levelID = 0;
+        [SerializeField] private bool isLastLevel = false;
+        [SerializeField] private bool isTest = false;
 
         // Start is called before the first frame update
         void Start()
@@ -53,13 +58,41 @@ namespace SolarProto
 
         public void Crash()
         {
+            dataManager.SaveData();
             DestroyShip();
             Debug.Log("Boum ! <3");
+
+            if (!isTest)
+            {
+                StartCoroutine(LoadResultScene());
+            }
         }
 
         public void Win()
         {
+            dataManager.SaveData();
             Debug.Log("Win !");
+
+            if(!isTest)
+            {
+                if (!isLastLevel) StartCoroutine(LoadNextScene());
+                else StartCoroutine(LoadResultScene());
+            }
+            
+        }
+
+        private IEnumerator LoadNextScene()
+        {
+            yield return new WaitForSeconds(3.0f);
+
+            SceneManager.LoadSceneAsync(levelID + 3);
+        }
+
+        private IEnumerator LoadResultScene()
+        {
+            yield return new WaitForSeconds(3.0f);
+
+            SceneManager.LoadSceneAsync(1);
         }
     }
 }

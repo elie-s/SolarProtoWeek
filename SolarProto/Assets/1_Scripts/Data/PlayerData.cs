@@ -17,6 +17,7 @@ namespace SolarProto
         public void AddLevelData(LevelData _data)
         {
             levelData.Add(_data);
+            Debug.Log(_data);
         }
 
         public float GetTotalIPT()

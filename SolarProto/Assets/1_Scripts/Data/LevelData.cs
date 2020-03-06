@@ -18,5 +18,10 @@ namespace SolarProto
             initialPlanificationTime = _ipt;
             subsequentPlanificationTime = _spt;
         }
+
+        public override string ToString()
+        {
+            return "id: " + levelId + " | " + "plays: " + playsAmount + " | " + "IPT: " + initialPlanificationTime + " | " + "SPT: " + subsequentPlanificationTime; 
+        }
     }
 }
