@@ -52,6 +52,7 @@ namespace SolarProto
 
         public void DestroyShip()
         {
+            if (!ship) return;
             gravityManager.RemoveNewtonian(ship.GetComponent<ShipController>());
             Destroy(ship);
         }

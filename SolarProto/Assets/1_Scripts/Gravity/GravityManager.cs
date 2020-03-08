@@ -10,6 +10,8 @@ namespace SolarProto
         [SerializeField] private float gravitationnalForceModifier = 1.0f;
         [SerializeField] private float gravitationalForce = (float)(6.67430d * System.Math.Pow(10, -11));
 
+        public static float GravitationalForce = (float) (6.67430d * System.Math.Pow(10, -11));
+
         private CelestialBody[] celestialBodies;
 
         // Start is called before the first frame update

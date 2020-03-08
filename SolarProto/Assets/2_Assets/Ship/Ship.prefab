@@ -308,7 +308,7 @@ MonoBehaviour:
   orientationLerpForce: 0.5
   prevision: {fileID: 0}
   previsionDuration: 4
-  previsionFrequency: 5
+  previsionFrequency: 1
   mass: 1000
 --- !u!136 &8056269613571095921
 CapsuleCollider:

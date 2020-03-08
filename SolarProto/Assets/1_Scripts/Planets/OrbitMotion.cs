@@ -14,12 +14,16 @@ namespace SolarProto
         [SerializeField] private float previsionTime = 3.0f;
         [SerializeField] private float time = 0.0f;
         [SerializeField] private LineRenderer previsionLine = default;
+        [SerializeField] private bool startRandom = false;
+        [SerializeField] private bool facingOrigin = false;
 
         private bool isOrbiting = false;
         private float startTime;
         private Vector3 lastPos;
+        private float lastSpeed;
 
         private bool moved => lastPos != transform.position;
+        private bool changedSpeed => lastSpeed != speed;
 
         private void Awake()
         {
@@ -31,6 +35,8 @@ namespace SolarProto
 
         private void Start()
         {
+            if (Application.isPlaying && startRandom) RandomStart();
+
             SetPrevision();
             PrevisionSetActive(true);
         }
@@ -40,7 +46,7 @@ namespace SolarProto
             if (!Application.isPlaying)
             {
                 SetTime();
-                if(moved)
+                if(moved || changedSpeed)
                 {
                     SetPrevision();
                     PrevisionSetActive(true);
@@ -48,6 +54,9 @@ namespace SolarProto
             }
 
             lastPos = transform.position;
+            lastSpeed = speed;
+
+            if(origin && facingOrigin) transform.LookAt(origin);
         }
 
         private void LateUpdate()
@@ -60,9 +69,13 @@ namespace SolarProto
             if(isOrbiting) Orbit();
         }
 
-        private void Rotate()
+        private void RandomStart()
         {
-            transform.RotateAround(origin.position, Vector3.up, speedMultiplier * speed * Time.fixedDeltaTime / Mathf.Pow(Vector3.Distance(transform.position, origin.position), 2));
+            transform.localScale *= Random.value * 5 + 1;
+            speed = Random.value * 2 - 1.0f;
+            time = Random.value;
+            startTime = time;
+            transform.position = orbitTransform.Evaluate(time);
         }
 
         private void Orbit()

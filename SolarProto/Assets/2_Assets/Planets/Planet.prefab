@@ -347,6 +347,7 @@ MonoBehaviour:
   previsionTime: 3
   time: 0.9068099
   previsionLine: {fileID: 1237136805223564422}
+  startRandom: 0
 --- !u!114 &2516435085205011499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +363,9 @@ MonoBehaviour:
   massReference: 10
   massMultiplier: 1000000
   maxDistance: 0
+  scaleMass: 1
+  forceRef: 9.81
+  shipMass: 1000
 --- !u!120 &1237136805223564422
 LineRenderer:
   m_ObjectHideFlags: 0

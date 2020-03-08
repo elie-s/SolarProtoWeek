@@ -61,6 +61,11 @@ namespace SolarProto
             direction = new Vector3(_direction.x, direction.y, _direction.y) * speed;
         }
 
+        public void GetPortal()
+        {
+            direction = -GameObject.Find("Portal").transform.forward * speed;
+        }
+
         private IEnumerator MoveRoutine()
         {
             stop = false;
@@ -122,7 +127,7 @@ namespace SolarProto
             {
                 win();
                 getForces = false;
-                SetDirection(collision.transform.forward);
+                GetPortal();
                 finished = true;
             }
         }
